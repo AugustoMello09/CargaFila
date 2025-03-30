@@ -3,7 +3,11 @@ name: Backend CI with PR
 on:
   push:
     branches:
-      - 'feature/*'  
+      - 'feature/*' 
+  pull_request:
+    branches:
+      - main        
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -45,6 +49,17 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}  
           commit-message: 'Build successful - creating PR from ${{ env.branch_name }}'
           branch: ${{ env.branch_name }}      
-          base: main                          # PR vai pra main
+          base: main  # PR vai para main
           title: 'PR from ${{ env.branch_name }} to main'
           body: 'Build concluído com sucesso. Esta PR foi gerada automaticamente a partir de ${{ env.branch_name }}.'
+
+      - name: Auto Approve PR
+        uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto Merge PR
+        uses: pascalgn/automerge-action@v0.15.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
