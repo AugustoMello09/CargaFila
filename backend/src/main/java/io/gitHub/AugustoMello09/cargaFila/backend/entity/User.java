@@ -1,5 +1,6 @@
 package io.gitHub.AugustoMello09.cargaFila.backend.entity;
 
+import io.gitHub.AugustoMello09.cargaFila.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,4 +32,8 @@ public class User {
 
     @Column(name = "USU_PASSWORD", nullable = false)
     private String password;
+
+    @Column(name = "USU_AUTHORITY", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role authority;
 }
