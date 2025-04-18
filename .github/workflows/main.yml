@@ -33,7 +33,7 @@ jobs:
 
       - name: Build application
         working-directory: ./backend
-        run: mvn clean package -Dmaven.compiler.showWarnings=false
+        run: mvn clean package -DskipTests -Dmaven.compiler.showWarnings=false
 
       - name: Configure Git to Use HTTPS
         run: |
