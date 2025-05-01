@@ -62,9 +62,9 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           commit-message: 'Build successful - creating PR'
-          title: 'PR from ${{ needs.build.outputs.branch_name }}'
-          body: 'Auto-generated PR after successful build of ${{ needs.build.outputs.branch_name }}'
-          base: develop
-          branch: ${{ needs.build.outputs.branch_name }}
+          branch: develop
+          base: ${{ needs.build.outputs.branch_name }}
+          title: 'Pull Request from ${{ needs.build.outputs.branch_name }}'
+          body: 'This PR is automatically generated from ${{ needs.build.outputs.branch_name }} after a successful build.'
       
       
