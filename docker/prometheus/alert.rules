@@ -1,0 +1,48 @@
+groups:
+  - name: alertas_api
+    interval: 15s 
+    rules:
+      - alert: InstanciaIndisponivel
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instância indisponível"
+          description: "O target {{ $labels.instance }} está DOWN há mais de 30 segundos."
+
+      - alert: Erros5xxElevados
+        expr: rate(http_server_requests_seconds_count{status=~"5.."}[1m]) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta taxa de erros 5xx"
+          description: "Mais de 10% das requisições estão retornando erro 5xx."
+
+      - alert: RequisicoesLentas
+        expr: histogram_quantile(0.95, rate(http_server_requests_seconds_bucket[1m])) > 1
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "API lenta"
+          description: "95% das requisições estão levando mais de 1s para responder."
+
+      - alert: CPUAlta
+        expr: rate(process_cpu_seconds_total[1m]) > 0.9
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Consumo de CPU elevado"
+          description: "Uso de CPU acima de 90% por mais de 1 minuto."
+
+      - alert: JPAExecucaoLenta
+        expr: spring_data_repository_invocations_seconds_max > 1
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Chamada lenta em repositório JPA"
+          description: "Alguma operação no JPA está demorando mais de 1 segundo."
