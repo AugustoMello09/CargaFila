@@ -30,4 +30,13 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana 
     networks:
-      - aw-networks  
+      - aw-networks
+      
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"
+    networks:
+      - aw-networks       
