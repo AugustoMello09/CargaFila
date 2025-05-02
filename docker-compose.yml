@@ -39,4 +39,16 @@ services:
     ports:
       - "3100:3100"
     networks:
-      - aw-networks       
+      - aw-networks
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./docker/tempo/tempo.yml:/etc/tempo.yaml:ro
+    ports:
+      - "3200:3200" 
+      - "9411:9411" 
+    networks:
+      - aw-networks              
