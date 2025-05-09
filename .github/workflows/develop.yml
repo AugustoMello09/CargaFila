@@ -33,6 +33,15 @@ jobs:
         working-directory: ./backend
         run: mvn clean package -DskipTests -Dmaven.compiler.showWarnings=false
 
+  tests:
+    name: Application Tests
+    needs: build
+    uses: ./.github/workflows/tests.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    with:
+      sonar-enabled: true      
+
 
 
       
